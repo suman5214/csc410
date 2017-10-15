@@ -104,28 +104,9 @@ for k in declarations:
     print k
     
 constraints = []
-print "//////////"
 for i in itertools.combinations(all_pairs, r=int(math.floor(student_count/2))):
     weight = 0
     for pair in i:
         weight += get_priority(pair, grouping_pref)
     constraints.append(generate_constraint("and", i, all_pairs, weight))
-    print generate_constraint("and", i, all_pairs)
-    print "\n" + str(i)
-
-#assertion = s_assert(generate_constraint("or", constraints, constraints))
-
-
-print "/////////////////////////////////////"
-for a in all_pairs:
-    print a
-    print "priority: " + str(get_priority(a, grouping_pref))
-    
-'''
-assertions = []
-for b in constraints:
-    assertions.append(s_assert(b))
-    print assertions[-1]
-'''
-print(grouping_pref)
-print(all_pairs)
+    print generate_constraint("and", i, all_pairs, weight)
