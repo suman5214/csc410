@@ -42,9 +42,9 @@ def build(op, arg1, arg2):
     return "(" + op + " " + arg1 + " " + arg2 + ")"
 
 
-def generate_constraint(op, true_args, all_args):
+def generate_constraint(op, true_args, all_args, weight=1):
     brackets = 0;
-    answer = ""
+    answer = "(assert-soft "
     for i in all_args[:len(all_args) - 1]:
         if (i in true_args):
             answer += " (" + op + " " + i
@@ -55,7 +55,7 @@ def generate_constraint(op, true_args, all_args):
         answer += " " + all_args[-1]
     else:
         answer += " (not " + all_args[-1] + ")"
-    answer += (")" * brackets)
+    answer += (")" * brackets) + " :weight " + str(weight) + ")"
     return answer
 
 
@@ -70,9 +70,7 @@ def get_priority(group, grouping_prefs):
     priority = 1
 
     student1 = int(group.split("_")[0][1:])
-    print "student1: " + str(student1)
     student2 = int(group.split("_")[1][1:])
-    print "student2: " + str(student2)
 
     if (student1 in grouping_prefs[student2-1]):
         priority += 5
@@ -108,23 +106,26 @@ for k in declarations:
 constraints = []
 print "//////////"
 for i in itertools.combinations(all_pairs, r=int(math.floor(student_count/2))):
-    constraints.append(generate_constraint("and", i, all_pairs))
+    weight = 0
+    for pair in i:
+        weight += get_priority(pair, grouping_pref)
+    constraints.append(generate_constraint("and", i, all_pairs, weight))
     print generate_constraint("and", i, all_pairs)
     print "\n" + str(i)
 
 #assertion = s_assert(generate_constraint("or", constraints, constraints))
+
+
+print "/////////////////////////////////////"
+for a in all_pairs:
+    print a
+    print "priority: " + str(get_priority(a, grouping_pref))
+    
+'''
 assertions = []
 for b in constraints:
     assertions.append(s_assert(b))
     print assertions[-1]
-
-print "/////////////////////////////////////"
-for z in grouping_pref:
-    print z
-for a in all_pairs:
-    print a
-    print "priority: " + str(get_priority(a, grouping_pref))
-
-
+'''
 print(grouping_pref)
 print(all_pairs)
