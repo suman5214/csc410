@@ -27,11 +27,11 @@ def build(op, arg1, arg2):
 	return "(" + op + " " + arg1 + " " + arg2 + ")"
 
 
-def s_assert(arg, weight="1", id=None):
+def s_assert(arg, weight=1, id=None):
 	if (id == None):
-		return "(assert-soft " + " " + arg + " :weight " + weight + ")"
+		return "(assert-soft " + " " + arg + " :weight " + str(weight) + ")"
 	else:
-		return "(assert-soft " + " " + arg + " :weight " + weight + ":id " + id + ")"
+		return "(assert-soft " + " " + arg + " :weight " + str(weight) + ":id " + id + ")"
         
 
 # ensures the correct amount of arguments
