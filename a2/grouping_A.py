@@ -31,7 +31,7 @@ def s_assert(arg, weight=1, id=None):
 	if (id == None):
 		return "(assert-soft " + " " + arg + " :weight " + str(weight) + ")"
 	else:
-		return "(assert-soft " + " " + arg + " :weight " + str(weight) + ":id " + id + ")"
+		return "(assert-soft " + " " + arg + " :weight " + str(weight) + ":id " + str(id) + ")"
         
 
 # ensures the correct amount of arguments
