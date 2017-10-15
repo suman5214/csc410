@@ -5,7 +5,10 @@ import math
 
 # process line of student pair into an array
 def process_line(array):
-    return array.strip().split(' ')
+    arr = array.strip().split(' ')
+    for x in range(0, len(arr)):
+        arr[x] = int(arr[x])
+    return arr
 
 # declares all possible variables of student pairs
 def get_variables(array):
@@ -63,6 +66,23 @@ def s_assert(arg, weight=1, id=None):
         return "(assert-soft " + arg + " :weight " + str(weight) + " :id " + str(id) + ")"
 
 
+def get_priority(group, grouping_prefs):
+    priority = 1
+
+    student1 = int(group.split("_")[0][1:])
+    print "student1: " + str(student1)
+    student2 = int(group.split("_")[1][1:])
+    print "student2: " + str(student2)
+
+    if (student1 in grouping_prefs[student2-1]):
+        priority += 5
+    if (student2 in grouping_prefs[student1-1]):
+        priority += 5
+    return priority 
+            
+
+
+
 # ensures the correct amount of arguments
 if (len(sys.argv) > 2 or len(sys.argv) == 1):
     sys.exit('Usage: python grouping_A.py <sample-input-file-name>')
@@ -92,8 +112,18 @@ for i in itertools.combinations(all_pairs, r=int(math.floor(student_count/2))):
     print generate_constraint("and", i, all_pairs)
     print "\n" + str(i)
 
-assertion = s_assert(generate_constraint("or", constraints, constraints))
-print assertion
+#assertion = s_assert(generate_constraint("or", constraints, constraints))
+assertions = []
+for b in constraints:
+    assertions.append(s_assert(b))
+    print assertions[-1]
+
+print "/////////////////////////////////////"
+for z in grouping_pref:
+    print z
+for a in all_pairs:
+    print a
+    print "priority: " + str(get_priority(a, grouping_pref))
 
 
 print(grouping_pref)
