@@ -1,6 +1,6 @@
 import sys
 # used to pretty print the matrix
-import numpy as np
+
 
 # process line of student pair into an array
 def process_line(array):
@@ -21,6 +21,17 @@ def is_priority(student1, student2, student_prefs):
         return True
     else:
         return False
+
+
+def build(op, arg1, arg2):
+	return "(" + op + " " + arg1 + " " + arg2 + ")"
+
+
+def s_assert(arg, weight="1", id=None):
+	if (id == None):
+		return "(assert-soft " + " " + arg + " :weight " + weight + ")"
+	else:
+		return "(assert-soft " + " " + arg + " :weight " + weight + ":id " + id + ")"
         
 
 # ensures the correct amount of arguments
@@ -42,7 +53,3 @@ all_pairs = declare_variables(grouping_pref)
 
 print(grouping_pref)
 print(all_pairs)
-
-
-
-
