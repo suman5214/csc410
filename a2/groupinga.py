@@ -47,12 +47,17 @@ if (len(sys.argv) > 2 or len(sys.argv) == 1):
 output_file = open('groupinga-formula.smt2', 'w')
 
 student = []
-student_count = 0
+student_count = 1
 pairing = []
 with open(sys.argv[1]) as file:
     for line in file:
-        student_count += 1
         pairing = pairing + get_pairings(student_count, line)
+        student.append(student_count)
+        student_count += 1
+# case where last line is empty
+with open(sys.argv[1]) as file2:
+    if (not file2.readlines()[-1].strip()):
+        student_count -= 1
         student.append(student_count)
 
 d = []
@@ -109,6 +114,7 @@ output_file.write('(get-model)')
 output_file.close()
 # run z3 and get output
 p = Popen(['/u/csc410h/fall/pub/z3/bin/z3', 'groupinga-formula.smt2'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+
 output, err = p.communicate()
 
 final_groups = get_final_groups(output)
