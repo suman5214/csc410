@@ -59,24 +59,6 @@ def generate_constraint(op, true_args, all_args, weight=1):
     return answer
 
 
-def generate_constraint2(op, true_args, all_args, weight=1):
-    brackets = 0;
-    answer = ""
-    for i in all_args[:len(all_args) - 1]:
-        if (i in true_args):
-            answer += " (" + op + " " + i
-        else:
-            answer += " (" + op + " (not " + i + ")"
-        brackets += 1
-    if (all_args[-1] in true_args):
-        answer += " " + all_args[-1]
-    else:
-        answer += " (not " + all_args[-1] + ")"
-    answer += (")" * brackets)
-    return answer
-
-
-
 def s_assert(arg, weight=1, id=None):
     if (id == None):
         return "(assert-soft " + arg + " :weight " + str(weight) + ")"
@@ -95,7 +77,6 @@ def get_priority(group, grouping_prefs):
     if (student2 in grouping_prefs[student1-1]):
         priority += 5
     return priority 
-            
 
 
 
